@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>긍정온 — 내 안의 긍정을 켜는 시간</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3ECDE;
+    --paper-alt:#EAE0CB;
+    --ink:#2A241D;
+    --ink-soft:#6E6152;
+    --ink-faint:#9C8F7C;
+    --line: rgba(42,36,29,0.14);
+    --brass:#B8874A;
+    --brass-light:#D9A85C;
+
+    --c-write:#463A76;
+    --c-sound:#155E4F;
+    --c-draw:#7A2A46;
+    --c-wander:#3A5F32;
+    --c-mind:#2A4A78;
+
+    --radius: 20px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{ font-family:'Noto Serif KR', serif; letter-spacing:-0.01em; }
+  a{ color:inherit; text-decoration:none; }
+  img,svg{ display:block; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; }
+  :focus-visible{ outline:2px solid var(--brass); outline-offset:3px; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+  /* ---------- NAV ---------- */
+  nav.topnav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(243,236,222,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topnav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
+  .brandmark{ display:flex; align-items:baseline; gap:8px; }
+  .brandmark .word{ font-size:22px; font-weight:900; }
+  .brandmark .dot{ width:8px; height:8px; border-radius:50%; background:var(--brass); display:inline-block; }
+  .navlinks{ display:flex; gap:30px; font-size:14.5px; color:var(--ink-soft); }
+  .navlinks a{ position:relative; padding:4px 0; transition:color .2s; }
+  .navlinks a:hover{ color:var(--ink); }
+  .navlinks a::after{
+    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1.5px;
+    background:var(--brass); transition:width .25s ease;
+  }
+  .navlinks a:hover::after{ width:100%; }
+  .nav-cta{
+    font-size:13.5px; font-weight:700; padding:10px 20px; border-radius:999px;
+    background:var(--ink); color:var(--paper);
+    transition:transform .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{ background:var(--brass); transform:translateY(-1px); }
+  @media (max-width:760px){ .navlinks{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 120px;
+    text-align:center;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(120,110,90,0.20), transparent 60%),
+      linear-gradient(180deg, #E7DEC9 0%, #EFE6D2 55%, var(--paper) 100%);
+    transition: background 1.1s ease;
+    overflow:hidden;
+  }
+  .hero.on{
+    background:
+      radial-gradient(ellipse 1000px 600px at 50% -5%, rgba(217,168,92,0.55), transparent 62%),
+      linear-gradient(180deg, #F6E9CC 0%, #F5EAD3 55%, var(--paper) 100%);
+  }
+  .hero .glow-orb{
+    position:absolute; left:50%; top:-120px; width:520px; height:520px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(217,168,92,0.0) 0%, rgba(217,168,92,0.0) 100%);
+    filter:blur(40px);
+    transition: background 1.1s ease, opacity 1.1s ease;
+    pointer-events:none;
+  }
+  .hero.on .glow-orb{
+    background:radial-gradient(circle, rgba(217,168,92,0.55) 0%, rgba(217,168,92,0.08) 55%, transparent 75%);
+  }
+
+  .hero-eyebrow{
+    font-size:13px; letter-spacing:0.16em; color:var(--ink-soft);
+    text-transform:uppercase; margin-bottom:22px; position:relative; z-index:2;
+  }
+
+  /* pull-switch signature element */
+  .switch-rig{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center;
+    margin:0 auto 28px;
+  }
+  .bulb{
+    width:54px; height:54px;
+  }
+  .bulb circle{ transition: fill 0.5s ease, filter 0.5s ease; }
+  .bulb .glass{ fill:#DDD3BC; stroke:var(--ink-faint); stroke-width:1.4; }
+  .hero.on .bulb .glass{ fill:var(--brass-light); stroke:var(--brass); filter:drop-shadow(0 0 18px rgba(217,168,92,0.85)); }
+  .bulb .base{ fill:var(--ink-faint); }
+  .hero.on .bulb .base{ fill:var(--ink-soft); }
+
+  .cord{ width:2px; height:34px; background:var(--ink-faint); transition:height .35s ease, background .5s; }
+  .hero.on .cord{ height:44px; background:var(--brass); }
+  .pullring{
+    width:16px; height:16px; border-radius:50%;
+    border:2px solid var(--ink-faint);
+    background:var(--paper);
+    margin-top:-2px;
+    transition:transform .35s ease, border-color .5s ease, background .5s ease;
+  }
+  .hero.on .pullring{ border-color:var(--brass); background:var(--brass-light); }
+  .switch-rig button{
+    display:flex; flex-direction:column; align-items:center;
+    padding:6px 14px 10px;
+  }
+  .switch-rig button:hover .pullring{ transform:translateY(3px); }
+  .switch-hint{
+    font-size:12.5px; color:var(--ink-faint); margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .hero.on .switch-hint{ opacity:0; height:0; margin:0; overflow:hidden; }
+
+  .hero h1{
+    position:relative; z-index:2;
+    font-size:clamp(34px, 5.4vw, 60px);
+    font-weight:900;
+    margin-bottom:16px;
+    transition: text-shadow .6s ease;
+  }
+  .hero.on h1{ text-shadow:0 0 46px rgba(217,168,92,0.35); }
+  .hero .slogan-en{
+    position:relative; z-index:2;
+    font-size:14px; letter-spacing:0.28em; color:var(--brass);
+    text-transform:uppercase; font-weight:700; margin-bottom:26px;
+  }
+  .hero p.lead{
+    position:relative; z-index:2;
+    max-width:520px; margin:0 auto 40px;
+    color:var(--ink-soft); font-size:16.5px;
+  }
+  .hero-ctas{ position:relative; z-index:2; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn{
+    padding:15px 30px; border-radius:999px; font-size:14.5px; font-weight:700;
+    transition:transform .2s ease, box-shadow .2s ease, background .3s ease, color .3s ease;
+    display:inline-block;
+  }
+  .btn.primary{ background:var(--ink); color:var(--paper); }
+  .hero.on .btn.primary{ background:var(--brass); color:#231a0d; box-shadow:0 8px 24px rgba(184,135,74,0.4); }
+  .btn.primary:hover{ transform:translateY(-2px); }
+  .btn.ghost{ border:1.4px solid var(--ink-faint); color:var(--ink); }
+  .btn.ghost:hover{ border-color:var(--ink); transform:translateY(-2px); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition-duration:0.01ms !important; animation-duration:0.01ms !important; }
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{ padding:96px 0 70px; }
+  .about .wrap{ max-width:760px; text-align:center; }
+  .about .kicker{
+    font-size:13px; letter-spacing:0.14em; color:var(--brass); text-transform:uppercase;
+    font-weight:700; margin-bottom:18px;
+  }
+  .about h2{ font-size:clamp(24px,3.4vw,34px); font-weight:700; margin-bottom:22px; line-height:1.45; }
+  .about p{ color:var(--ink-soft); font-size:16px; }
+
+  /* ---------- CATEGORIES ---------- */
+  .categories{ padding:30px 0 110px; }
+  .cat-head{ text-align:center; margin-bottom:52px; }
+  .cat-head .kicker{ font-size:13px; letter-spacing:0.14em; color:var(--brass); text-transform:uppercase; font-weight:700; margin-bottom:14px;}
+  .cat-head h2{ font-size:clamp(24px,3.2vw,32px); margin-bottom:14px; }
+  .cat-head p{ color:var(--ink-soft); font-size:15px; }
+
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:22px;
+  }
+  .cat-card{
+    position:relative;
+    border-radius:var(--radius);
+    padding:30px 26px 26px;
+    background:var(--paper-alt);
+    border:1px solid var(--line);
+    min-height:340px;
+    display:flex; flex-direction:column;
+    color:var(--ink);
+    overflow:hidden;
+    transition: background .55s ease, color .55s ease, box-shadow .55s ease, border-color .55s ease, transform .25s ease;
+  }
+  .cat-card:hover{ transform:translateY(-3px); }
+  .cat-card.on{
+    background:var(--cat-color);
+    color:#F6EFE0;
+    border-color:transparent;
+    box-shadow:0 20px 46px -18px var(--cat-color), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  }
+
+  .cat-top{ display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:22px; }
+  .cat-label{ display:flex; flex-direction:column; gap:5px; }
+  .cat-en{ font-size:12.5px; letter-spacing:0.16em; font-weight:700; text-transform:uppercase; color:var(--brass); }
+  .cat-card.on .cat-en{ color:#F0D9A8; }
+  .cat-kr{ font-size:22px; font-weight:700; font-family:'Noto Serif KR', serif; }
+
+  /* small toggle button = mini light switch */
+  .toggle-btn{
+    width:40px; height:40px; border-radius:50%;
+    border:1.4px solid var(--ink-faint);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; transition: all .45s ease;
+  }
+  .toggle-btn svg{ width:16px; height:16px; }
+  .toggle-btn .fil{ transition:fill .45s ease; fill:var(--ink-faint); }
+  .cat-card.on .toggle-btn{ border-color:rgba(255,255,255,0.7); background:rgba(255,255,255,0.12); }
+  .cat-card.on .toggle-btn .fil{ fill:#FBEBC7; }
+
+  .cat-tagline{ font-size:17px; font-weight:700; margin-bottom:10px; line-height:1.45; font-family:'Noto Serif KR', serif; }
+  .cat-desc{ font-size:14px; color:var(--ink-soft); margin-bottom:auto; line-height:1.6; }
+  .cat-card.on .cat-desc{ color:rgba(246,239,224,0.82); }
+
+  .cat-products{ margin-top:22px; padding-top:18px; border-top:1px solid var(--line); }
+  .cat-card.on .cat-products{ border-top-color:rgba(255,255,255,0.22); }
+  .cat-products .plabel{ font-size:11.5px; letter-spacing:0.08em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:8px;}
+  .cat-card.on .cat-products .plabel{ color:rgba(246,239,224,0.6); }
+  .cat-products .pitem{ font-size:13.5px; display:flex; justify-content:space-between; padding:3px 0; }
+  .cat-products .pprice{ color:var(--brass); font-weight:700; }
+  .cat-card.on .cat-products .pprice{ color:#F0D9A8; }
+
+  /* ---------- COUPON BANNER ---------- */
+  .coupon{
+    margin:0 0 110px;
+  }
+  .coupon .inner{
+    max-width:1180px; margin:0 auto; padding:0 32px;
+  }
+  .coupon .box{
+    background:var(--ink); color:var(--paper);
+    border-radius:26px;
+    padding:52px 44px;
+    display:flex; align-items:center; justify-content:space-between; gap:30px;
+    flex-wrap:wrap;
+  }
+  .coupon h3{ font-size:clamp(20px,2.6vw,27px); margin-bottom:8px; }
+  .coupon p{ color:rgba(243,236,222,0.68); font-size:14.5px; }
+  .coupon .btn.primary{ background:var(--brass); color:#231a0d; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ border-top:1px solid var(--line); padding:56px 0 40px; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:36px; }
+  .foot-brand .brandmark{ margin-bottom:10px; }
+  .foot-brand p{ font-size:13.5px; color:var(--ink-soft); max-width:260px; }
+  .foot-links{ display:flex; gap:56px; flex-wrap:wrap; }
+  .foot-col h4{ font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:14px; }
+  .foot-col a{ display:block; font-size:14px; color:var(--ink-soft); margin-bottom:9px; transition:color .2s; }
+  .foot-col a:hover{ color:var(--ink); }
+  .foot-bottom{
+    max-width:1180px; margin:40px auto 0; padding:24px 32px 0;
+    border-top:1px solid var(--line);
+    font-size:12.5px; color:var(--ink-faint);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="#top" class="brandmark"><span class="word">긍정온</span><span class="dot"></span></a>
+    <div class="navlinks">
+      <a href="#write">글쓰기</a>
+      <a href="#sound">음악</a>
+      <a href="#draw">그림</a>
+      <a href="#wander">힐링여행</a>
+      <a href="#mind">심리</a>
+    </div>
+    <a href="#coupon" class="nav-cta">가입하고 3,000원 받기</a>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="glow-orb"></div>
+  <div class="wrap">
+    <div class="hero-eyebrow">콘텐츠 융합형 디지털 힐링 플랫폼</div>
+
+    <div class="switch-rig">
+      <svg class="bulb" viewBox="0 0 64 64" fill="none">
+        <circle class="glass" cx="32" cy="26" r="19"/>
+        <rect class="base" x="26" y="42" width="12" height="10" rx="2"/>
+      </svg>
+      <div class="cord"></div>
+      <button type="button" id="pullSwitch" aria-pressed="false" aria-label="긍정온 켜기">
+        <span class="pullring"></span>
+        <span class="switch-hint">당겨서 켜보세요</span>
+      </button>
+    </div>
+
+    <h1>내 안의 긍정을 켜는 시간</h1>
+    <div class="slogan-en">Positive · On</div>
+    <p class="lead">책, 음악, 그림, 여행, 심리 — 다섯 개의 온(ON)이 만나 지친 하루에 온기를 더합니다. 완벽하지 않아도 괜찮아요, 한 줄의 글이면 충분해요.</p>
+    <div class="hero-ctas">
+      <a href="#categories" class="btn primary">지금 둘러보기</a>
+      <a href="#about" class="btn ghost">브랜드 이야기</a>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="kicker">Brand Concept</div>
+    <h2>바쁜 하루 속에서도<br>내 마음의 온도를 잃지 않도록.</h2>
+    <p>긍정온은 책과 글쓰기, 드로잉, 음악, 여행과 맛집이라는 다섯 개의 결을 하나로 엮어, 사용자 스스로 내면의 긍정 에너지를 켤 수 있도록 돕는 온·오프라인 힐링 플랫폼입니다. 오늘 하루 한 줄의 글, 한 장의 드로잉이면 충분합니다.</p>
+  </div>
+</section>
+
+<section class="categories" id="categories">
+  <div class="wrap">
+    <div class="cat-head">
+      <div class="kicker">5 ON Series</div>
+      <h2>다섯 개의 온(ON), 각자의 방식으로 마음을 켭니다</h2>
+      <p>카드의 스위치를 눌러 오늘 나에게 필요한 온기를 켜보세요.</p>
+    </div>
+
+    <div class="cat-grid" id="catGrid">
+
+      <article class="cat-card" id="write" style="--cat-color:var(--c-write)" data-cat="write">
+        <div class="cat-top">
+          <div class="cat-label">
+            <span class="cat-en">Write On</span>
+            <span class="cat-kr">글쓰기</span>
+          </div>
+          <button class="toggle-btn" type="button" aria-pressed="false" aria-label="글쓰기 카테고리 켜기">
+            <svg viewBox="0 0 24 24"><path class="fil" d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2Zm-2 19h4v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1Z"/></svg>
+          </button>
+        </div>
+        <div class="cat-tagline">"어제보다 조금 더<br>나다운 오늘을 쓰다"</div>
+        <p class="cat-desc">마음속 엉킨 실타래를 푸는 가장 따뜻한 방법, 나의 첫 에세이 쓰기부터 독립출판 코칭까지.</p>
+        <div class="cat-products">
+          <div class="plabel">대표 콘텐츠</div>
+          <div class="pitem"><span>필사 노트 PDF</span><span class="pprice">4,900원~</span></div>
+          <div class="pitem"><span>30일 글쓰기 챌린지</span><span class="pprice">참여형</span></div>
+          <div class="pitem"><span>책 출판 코칭</span><span class="pprice">250,000원~</span></div>
+        </div>
+      </article>
+
+      <article class="cat-card" id="sound" style="--cat-color:var(--c-sound)" data-cat="sound">
+        <div class="cat-top">
+          <div class="cat-label">
+            <span class="cat-en">Sound On</span>
+            <span class="cat-kr">음악</span>
+          </div>
+          <button class="toggle-btn" type="button" aria-pressed="false" aria-label="음악 카테고리 켜기">
+            <svg viewBox="0 0 24 24"><path class="fil" d="M9 18V5l12-2v13"/><circle class="fil" cx="6" cy="18" r="3"/><circle class="fil" cx="18" cy="16" r="3"/></svg>
+          </button>
+        </div>
+        <div class="cat-tagline">"소리로 마음이<br>따뜻해지다"</div>
+        <p class="cat-desc">음악이 흐르는 곳, 긍정온. 마음 챙김을 돕는 감성 큐레이션과 힐링 사운드.</p>
+        <div class="cat-products">
+          <div class="plabel">대표 콘텐츠</div>
+          <div class="pitem"><span>힐링 BGM 라이선스</span><span class="pprice">월 9,900원~</span></div>
+          <div class="pitem"><span>마음챙김 오디오 가이드</span><span class="pprice">멤버십</span></div>
+        </div>
+      </article>
+
+      <article class="cat-card" id="draw" style="--cat-color:var(--c-draw)" data-cat="draw">
+        <div class="cat-top">
+          <div class="cat-label">
+            <span class="cat-en">Draw On</span>
+            <span class="cat-kr">그림</span>
+          </div>
+          <button class="toggle-btn" type="button" aria-pressed="false" aria-label="그림 카테고리 켜기">
+            <svg viewBox="0 0 24 24"><path class="fil" d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25ZM20.7 7.04a1 1 0 0 0 0-1.42l-2.34-2.34a1 1 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82Z"/></svg>
+          </button>
+        </div>
+        <div class="cat-tagline">"감성을 선으로 담다"</div>
+        <p class="cat-desc">완벽하지 않아도 괜찮아요. 오롯이 나에게 집중하는 드로잉 한 잔의 시간.</p>
+        <div class="cat-products">
+          <div class="plabel">대표 콘텐츠</div>
+          <div class="pitem"><span>굿노트 드로잉 템플릿</span><span class="pprice">6,500원~</span></div>
+          <div class="pitem"><span>드로잉 엽서 굿즈</span><span class="pprice">49,000원</span></div>
+          <div class="pitem"><span>온라인 드로잉 클래스</span><span class="pprice">문의</span></div>
+        </div>
+      </article>
+
+      <article class="cat-card" id="wander" style="--cat-color:var(--c-wander)" data-cat="wander">
+        <div class="cat-top">
+          <div class="cat-label">
+            <span class="cat-en">Wander On</span>
+            <span class="cat-kr">힐링 맛집 여행</span>
+          </div>
+          <button class="toggle-btn" type="button" aria-pressed="false" aria-label="힐링 맛집 여행 카테고리 켜기">
+            <svg viewBox="0 0 24 24"><path class="fil" d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+          </button>
+        </div>
+        <div class="cat-tagline">"산책하듯 떠나다"</div>
+        <p class="cat-desc">바다 향을 머금은 휴식과 미식, 당신만을 위해 준비된 로컬 웰니스 저니.</p>
+        <div class="cat-products">
+          <div class="plabel">대표 콘텐츠</div>
+          <div class="pitem"><span>여행 일기 PDF</span><span class="pprice">9,900원~</span></div>
+          <div class="pitem"><span>로컬 웰니스 패키지</span><span class="pprice">제휴 안내</span></div>
+        </div>
+      </article>
+
+      <article class="cat-card" id="mind" style="--cat-color:var(--c-mind)" data-cat="mind">
+        <div class="cat-top">
+          <div class="cat-label">
+            <span class="cat-en">Mind On</span>
+            <span class="cat-kr">심리</span>
+          </div>
+          <button class="toggle-btn" type="button" aria-pressed="false" aria-label="심리 카테고리 켜기">
+            <svg viewBox="0 0 24 24"><path class="fil" d="M12 21s-7.5-4.6-9.9-9C.5 8.2 2.3 4 6.4 4c2.1 0 3.6 1.2 4.6 2.6C12 5.2 13.5 4 15.6 4 19.7 4 21.5 8.2 19.9 12c-2.4 4.4-9.9 9-9.9 9Z"/></svg>
+          </button>
+        </div>
+        <div class="cat-tagline">"온전히 나의 마음을<br>돌보다"</div>
+        <p class="cat-desc">지치고 무기력한 날, 작은 순간이 큰 행복이 됩니다. 심리 상담과 자아 성찰 콘텐츠.</p>
+        <div class="cat-products">
+          <div class="plabel">대표 콘텐츠</div>
+          <div class="pitem"><span>긍정 확언 카드 30장</span><span class="pprice">9,900원~</span></div>
+          <div class="pitem"><span>1:1 심리 코칭</span><span class="pprice">250,000원~</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="coupon" id="coupon">
+  <div class="inner">
+    <div class="box">
+      <div>
+        <h3>첫 방문을 응원해요</h3>
+        <p>신규 가입 시 3,000원 할인 쿠폰을 드려요. 오늘, 나에게 맞는 온(ON) 하나를 켜보세요.</p>
+      </div>
+      <a href="#top" class="btn primary">3,000원 쿠폰 받기</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">
+      <div class="brandmark"><span class="word">긍정온</span><span class="dot"></span></div>
+      <p>쓰고 · 그리고 · 빛나다 — 내 안의 긍정을 켜는 시간, 긍정온.</p>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>Category</h4>
+        <a href="#write">글쓰기 · Write On</a>
+        <a href="#sound">음악 · Sound On</a>
+        <a href="#draw">그림 · Draw On</a>
+        <a href="#wander">힐링여행 · Wander On</a>
+        <a href="#mind">심리 · Mind On</a>
+      </div>
+      <div class="foot-col">
+        <h4>Studio</h4>
+        <a href="#about">브랜드 스토리</a>
+        <a href="#coupon">신규가입 혜택</a>
+        <a href="#top">문의하기</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>ⓒ 2026 긍정온 Studio. All rights reserved.</span>
+    <span>내 안의 긍정을 켜는 시간, 긍정온</span>
+  </div>
+</footer>
+
+<script>
+  // Hero master switch
+  const pullSwitch = document.getElementById('pullSwitch');
+  const hero = document.querySelector('.hero');
+  pullSwitch.addEventListener('click', () => {
+    const isOn = hero.classList.toggle('on');
+    pullSwitch.setAttribute('aria-pressed', isOn);
+  });
+
+  // Category card switches
+  document.querySelectorAll('.cat-card').forEach(card => {
+    const btn = card.querySelector('.toggle-btn');
+    const toggle = () => {
+      const isOn = card.classList.toggle('on');
+      btn.setAttribute('aria-pressed', isOn);
+    };
+    btn.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+  });
+</script>
+
+</body>
+</html>
