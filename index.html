@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>긍정온 — 온전히 나로, 따뜻하게 세상으로</title>
+<meta name="description" content="평범한 일상이 책이 되고, 감성이 그림이 되고, 경험이 수익이 되는 곳. 온:문 · 온:마음 · 온:색 · 온:일상 · 온:지, 다섯 개의 문으로 들어오세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root{
+    --ivory:#FBF8F1;
+    --cream:#F2ECDF;
+    --lav-mist:#E9E4F6;
+    --violet-ink:#2E2853;
+    --violet-soft:#6B6390;
+    --violet-faint:#9E97BE;
+    --lav:#7C6FD9;
+    --glow:#FFD98E;
+    --glow-deep:#F2B95C;
+    --line:rgba(46,40,83,0.12);
+
+    --c-mun:#5B4BC4;
+    --c-maum:#3E6FBE;
+    --c-saek:#C94A6B;
+    --c-ilsang:#D18432;
+    --c-ji:#3E8F63;
+
+    --radius:18px;
+
+    /* ---- structural type scale ---- */
+    --text-display-xl-size:clamp(30px,4.9vw,54px);
+    --text-display-lg-size:clamp(25px,3.4vw,36px);
+    --text-display-md-size:clamp(19px,2.2vw,24px);
+    --text-title-md-size:18px;
+    --text-title-sm-size:15.5px;
+    --text-body-md-size:14.8px;
+    --text-body-sm-size:13.3px;
+    --text-caption-size:12.5px;
+    --text-caption-uppercase-size:11.5px;
+    --text-caption-uppercase-tracking:0.16em;
+    --text-button-tracking:0.02em;
+    --text-nav-link-tracking:0.02em;
+
+    /* ---- spacing scale ---- */
+    --space-xxxs:4px;
+    --space-xxs:8px;
+    --space-xs:16px;
+    --space-sm:24px;
+    --space-md:32px;
+    --space-lg:48px;
+    --space-xl:64px;
+    --space-xxl:96px;
+    --space-super:128px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ivory);
+    color:var(--violet-ink);
+    font-family:'Pretendard Variable',Pretendard,'Noto Sans KR',sans-serif;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.batang{font-family:'Gowun Batang',serif;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  img,svg{display:block;}
+  :focus-visible{outline:2.5px solid var(--lav);outline-offset:3px;border-radius:4px;}
+
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px;}
+
+  .kicker{
+    display:inline-block;
+    font-size:12.5px;font-weight:700;letter-spacing:0.18em;
+    color:var(--lav);text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .sec-head{max-width:640px;margin-bottom:56px;}
+  .sec-head h2{font-size:var(--text-display-lg-size);font-weight:700;line-height:1.4;margin-bottom:14px;}
+  .sec-head p{color:var(--violet-soft);font-size:16px;}
+  .sec-head.with-badge{
+    max-width:none;display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;flex-wrap:wrap;
+  }
+  .sec-head.with-badge > div{max-width:640px;}
+
+  /* ---------- BADGE ---------- */
+  .badge{
+    display:inline-flex;align-items:center;white-space:nowrap;
+    font-size:var(--text-caption-uppercase-size);font-weight:700;
+    letter-spacing:var(--text-caption-uppercase-tracking);
+    text-transform:uppercase;
+    border-radius:999px;padding:6px 15px;
+    background:var(--lav-mist);color:var(--lav);
+  }
+  .badge.on-dark{background:rgba(255,255,255,0.12);color:var(--glow);}
+
+  /* ---------- NAV ---------- */
+  .topnav{
+    position:sticky;top:0;z-index:60;
+    background:rgba(251,248,241,0.88);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .brand{display:flex;align-items:center;gap:9px;font-family:'Gowun Batang',serif;font-weight:700;font-size:21px;}
+  .brand .on-dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--glow-deep);
+    box-shadow:0 0 10px 2px rgba(242,185,92,0.65);
+  }
+  .navlinks{display:flex;gap:28px;font-size:14.5px;color:var(--violet-soft);letter-spacing:var(--text-nav-link-tracking);}
+  .navlinks a{padding:4px 0;border-bottom:1.5px solid transparent;transition:color .2s,border-color .25s;}
+  .navlinks a:hover{color:var(--violet-ink);border-color:var(--glow-deep);}
+  .nav-cta{
+    font-size:13.5px;font-weight:700;padding:10px 20px;border-radius:999px;
+    background:var(--violet-ink);color:var(--ivory);
+    transition:background .25s,transform .2s;
+  }
+  .nav-cta:hover{background:var(--lav);transform:translateY(-1px);}
+  @media (max-width:820px){.navlinks{display:none;}}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:88px 0 110px;
+    text-align:center;
+    background:
+      radial-gradient(ellipse 1000px 480px at 50% -8%, rgba(124,111,217,0.16), transparent 62%),
+      linear-gradient(180deg,#EFEAF8 0%,#F6F1E9 58%,var(--ivory) 100%);
+    overflow:hidden;
+  }
+  .hero-eyebrow{
+    font-size:12.5px;letter-spacing:0.22em;color:var(--violet-soft);
+    text-transform:uppercase;font-weight:600;margin-bottom:26px;
+  }
+  .hero h1{
+    font-size:clamp(30px,4.9vw,54px);
+    font-weight:700;line-height:1.42;
+    margin:0 auto 20px;max-width:820px;
+  }
+  .hero h1 em{font-style:normal;}
+  .hero h1 .hl-mun{color:var(--c-mun);}
+  .hero h1 .hl-saek{color:var(--c-saek);}
+  .hero h1 .hl-ji{color:var(--c-ji);}
+  .hero .slogan{
+    font-family:'Gowun Batang',serif;
+    font-size:16.5px;color:var(--violet-soft);
+    margin-bottom:8px;
+  }
+  .hero .tagline{
+    font-size:13px;letter-spacing:0.34em;color:var(--lav);
+    font-weight:700;margin-bottom:58px;
+  }
+
+  /* ----- five doors : signature ----- */
+  .doors{
+    display:flex;justify-content:center;align-items:flex-end;
+    gap:clamp(10px,2.4vw,26px);
+    margin:0 auto 54px;
+    flex-wrap:nowrap;
+  }
+  .door{
+    display:flex;flex-direction:column;align-items:center;gap:14px;
+    width:clamp(96px,13vw,148px);
+    transition:transform .3s ease;
+  }
+  .door:hover{transform:translateY(-6px);}
+  .door-arch{
+    position:relative;
+    width:100%;aspect-ratio:10/16;
+    border-radius:999px 999px 6px 6px;
+    background:var(--cream);
+    border:1.5px solid var(--line);
+    perspective:700px;
+    overflow:hidden;
+  }
+  .door-light{
+    position:absolute;inset:0;
+    border-radius:inherit;
+    background:radial-gradient(ellipse 90% 120% at 50% 85%, var(--glow) 0%, rgba(255,217,142,0.35) 55%, transparent 80%);
+    opacity:0;transition:opacity .55s ease;
+  }
+  .door-panel{
+    position:absolute;inset:5px;
+    border-radius:999px 999px 4px 4px;
+    background:linear-gradient(165deg, color-mix(in srgb, var(--door-c) 88%, white) 0%, var(--door-c) 70%);
+    display:flex;align-items:center;justify-content:center;
+    transform-origin:left center;
+    transition:transform .6s cubic-bezier(.32,.9,.35,1);
+    box-shadow:inset 0 0 0 1.5px rgba(255,255,255,0.18);
+  }
+  .door:hover .door-panel,
+  .door:focus-visible .door-panel{transform:rotateY(-52deg);}
+  .door:hover .door-light,
+  .door:focus-visible .door-light{opacity:1;}
+  .door-hanja{
+    font-family:'Gowun Batang',serif;
+    writing-mode:vertical-rl;
+    font-size:clamp(20px,2.6vw,29px);font-weight:700;
+    color:rgba(255,255,255,0.92);
+    letter-spacing:0.3em;
+    text-shadow:0 1px 6px rgba(0,0,0,0.18);
+  }
+  .door-knob{
+    position:absolute;right:11%;top:52%;
+    width:7px;height:7px;border-radius:50%;
+    background:var(--glow);
+    box-shadow:0 0 6px 1px rgba(255,217,142,0.9);
+  }
+  .door-name{font-family:'Gowun Batang',serif;font-size:16.5px;font-weight:700;}
+  .door-en{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--violet-faint);margin-top:-10px;}
+  .doors-hint{font-size:13px;color:var(--violet-faint);margin-bottom:44px;}
+
+  .hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    padding:15px 30px;border-radius:999px;font-size:14.5px;font-weight:700;
+    display:inline-block;
+    transition:transform .2s,box-shadow .25s,background .25s,border-color .25s;
+  }
+  .btn.primary{background:var(--violet-ink);color:var(--ivory);}
+  .btn.primary:hover{background:var(--lav);transform:translateY(-2px);box-shadow:0 10px 26px -10px rgba(124,111,217,0.55);}
+  .btn.ghost{border:1.5px solid var(--violet-faint);}
+  .btn.ghost:hover{border-color:var(--violet-ink);transform:translateY(-2px);}
+
+  @media (max-width:640px){
+    .doors{flex-wrap:wrap;gap:18px;}
+    .door{width:calc(33% - 14px);min-width:88px;}
+  }
+
+  /* ---------- BAND STATEMENT ---------- */
+  .band-statement{
+    position:relative;
+    background:
+      radial-gradient(ellipse 640px 320px at 82% 0%, rgba(124,111,217,0.32), transparent 65%),
+      linear-gradient(165deg,#332C60 0%,#2E2853 55%,#241F42 100%);
+    color:#F1EDE2;
+    padding:var(--space-xxl) 0;
+    text-align:center;
+    overflow:hidden;
+  }
+  .band-eyebrow{
+    font-size:var(--text-caption-uppercase-size);letter-spacing:var(--text-caption-uppercase-tracking);
+    text-transform:uppercase;font-weight:700;color:var(--glow);margin-bottom:20px;
+  }
+  .band-statement h2{
+    font-size:var(--text-display-xl-size);font-weight:700;line-height:1.4;
+    max-width:780px;margin:0 auto 18px;
+  }
+  .band-statement p{color:rgba(241,237,226,0.68);font-size:15.5px;max-width:560px;margin:0 auto;}
+
+  /* ---------- KEYWORDS ---------- */
+  .keywords{padding:96px 0 80px;}
+  .kw-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+  }
+  .kw{
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px 22px;background:#fff;
+  }
+  .kw h3{font-size:16.5px;margin-bottom:8px;}
+  .kw h3 span{font-size:11.5px;color:var(--violet-faint);font-family:'Pretendard Variable',sans-serif;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-left:7px;}
+  .kw p{font-size:13.8px;color:var(--violet-soft);}
+
+  /* ---------- CATEGORIES ---------- */
+  .categories{padding:40px 0 110px;}
+  .cat-list{display:flex;flex-direction:column;gap:20px;}
+  .cat{
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+    background:#fff;
+    padding:34px 34px 30px;
+    display:grid;
+    grid-template-columns:190px 1fr;
+    gap:30px;
+    border-left:5px solid var(--cat-c);
+    scroll-margin-top:90px;
+  }
+  .cat-id .hanja{
+    font-family:'Gowun Batang',serif;font-size:34px;font-weight:700;color:var(--cat-c);
+    line-height:1.1;
+  }
+  .cat-id .krname{font-family:'Gowun Batang',serif;font-size:19px;font-weight:700;margin-top:6px;}
+  .cat-id .enname{font-size:11.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--violet-faint);margin-top:4px;}
+  .cat-body .cat-slogan{
+    font-family:'Gowun Batang',serif;
+    font-size:19px;font-weight:700;margin-bottom:8px;color:var(--cat-c);
+  }
+  .cat-body .cat-desc{font-size:14.8px;color:var(--violet-soft);margin-bottom:18px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-size:12.8px;font-weight:600;
+    padding:7px 14px;border-radius:999px;
+    background:color-mix(in srgb, var(--cat-c) 8%, white);
+    color:color-mix(in srgb, var(--cat-c) 80%, black);
+    border:1px solid color-mix(in srgb, var(--cat-c) 22%, white);
+  }
+  @media (max-width:700px){
+    .cat{grid-template-columns:1fr;gap:18px;padding:26px 22px;}
+  }
+
+  /* ---------- PRODUCTS ---------- */
+  .products{padding:0 0 110px;}
+  .stage-block{margin-bottom:44px;}
+  .stage-title{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:22px;
+  }
+  .stage-title h3{font-size:var(--text-title-md-size);}
+  .p-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:20px;
+  }
+  .p-card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .p-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px -18px rgba(46,40,83,0.35);}
+  .p-card .p-swatch{
+    height:60px;background:var(--cat-c);position:relative;
+  }
+  .p-card .p-swatch::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(165deg, rgba(255,255,255,0.28), transparent 60%);
+  }
+  .p-card .p-body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:9px;flex:1;}
+  .p-card .p-name{font-weight:700;font-size:var(--text-title-sm-size);}
+  .p-card .p-desc{font-size:var(--text-body-sm-size);color:var(--violet-soft);flex:1;}
+  .p-card .p-price{
+    font-size:16px;font-weight:700;color:var(--lav);margin-top:auto;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- JOURNEY ---------- */
+  .journey{padding:0 0 110px;}
+  .j-steps{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:12px;
+    counter-reset:step;
+  }
+  .j-step{
+    position:relative;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 16px 18px;
+  }
+  .j-step::before{
+    counter-increment:step;
+    content:counter(step);
+    display:block;
+    font-family:'Gowun Batang',serif;
+    font-size:13px;font-weight:700;
+    width:26px;height:26px;border-radius:50%;
+    background:var(--lav-mist);color:var(--lav);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:12px;
+  }
+  .j-step h3{font-size:15.5px;margin-bottom:6px;}
+  .j-step p{font-size:12.8px;color:var(--violet-soft);line-height:1.55;}
+  @media (max-width:960px){.j-steps{grid-template-columns:repeat(3,1fr);}}
+  @media (max-width:560px){.j-steps{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- VISION ---------- */
+  .vision{
+    margin:0 0 110px;
+  }
+  .vision .box{
+    border-radius:26px;
+    background:
+      radial-gradient(ellipse 620px 300px at 78% 0%, rgba(124,111,217,0.35), transparent 65%),
+      linear-gradient(160deg,#332C60 0%,#2E2853 60%,#272147 100%);
+    color:#F1EDE2;
+    padding:64px 52px;
+    text-align:center;
+  }
+  .vision .kicker{color:var(--glow);}
+  .vision h2{font-size:clamp(22px,3vw,31px);line-height:1.5;max-width:720px;margin:0 auto 18px;}
+  .vision p{color:rgba(241,237,226,0.72);font-size:15px;max-width:640px;margin:0 auto 34px;}
+  .vision .cycle{
+    display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;
+    font-family:'Gowun Batang',serif;font-size:14.5px;font-weight:700;
+  }
+  .vision .cycle .c-item{
+    padding:8px 16px;border-radius:999px;
+    background:rgba(255,255,255,0.07);
+    border:1px solid rgba(255,255,255,0.14);
+  }
+  .vision .cycle .arr{color:var(--glow);font-family:'Pretendard Variable',sans-serif;}
+  @media (max-width:640px){.vision .box{padding:44px 24px;}}
+
+  /* ---------- CTA ---------- */
+  .join{padding:0 0 110px;text-align:center;}
+  .join h2{font-size:clamp(23px,3vw,32px);margin-bottom:14px;}
+  .join p{color:var(--violet-soft);font-size:15.5px;max-width:520px;margin:0 auto 32px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line);padding:52px 0 40px;background:var(--cream);}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;}
+  .foot-brand p{font-size:13.5px;color:var(--violet-soft);max-width:280px;margin-top:10px;}
+  .foot-links{display:flex;gap:56px;flex-wrap:wrap;}
+  .foot-col h4{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--violet-faint);margin-bottom:14px;}
+  .foot-col a{display:block;font-size:14px;color:var(--violet-soft);margin-bottom:9px;transition:color .2s;}
+  .foot-col a:hover{color:var(--violet-ink);}
+  .foot-bottom{
+    max-width:1140px;margin:40px auto 0;padding:24px 28px 0;
+    border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--violet-faint);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{transition-duration:0.01ms !important;animation-duration:0.01ms !important;}
+    .reveal{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="#top" class="brand">긍정온<span class="on-dot" aria-hidden="true"></span></a>
+    <div class="navlinks">
+      <a href="#cat-mun">온:문</a>
+      <a href="#cat-maum">온:마음</a>
+      <a href="#cat-saek">온:색</a>
+      <a href="#cat-ilsang">온:일상</a>
+      <a href="#cat-ji">온:지</a>
+      <a href="#products">제품</a>
+    </div>
+    <a href="#join" class="nav-cta">무료 PDF 받기</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-eyebrow">Positive On · 콘텐츠 융합형 힐링 크리에이터 플랫폼</div>
+    <h1>평범한 일상이 <em class="hl-mun">책</em>이 되고,<br>
+        감성이 <em class="hl-saek">그림</em>이 되고,<br>
+        경험이 <em class="hl-ji">수익</em>이 되는 곳</h1>
+    <p class="slogan">"온전히 나로, 따뜻하게 세상으로"</p>
+    <p class="tagline">쓰고 · 그리고 · 빛나다</p>
+
+    <div class="doors" role="group" aria-label="긍정온 5대 카테고리">
+      <button class="door" data-target="#cat-mun" style="--door-c:var(--c-mun)">
+        <span class="door-arch" aria-hidden="true">
+          <span class="door-light"></span>
+          <span class="door-panel"><span class="door-hanja">溫文</span><span class="door-knob"></span></span>
+        </span>
+        <span class="door-name">온:문</span>
+        <span class="door-en">Book &amp; Writing</span>
+      </button>
+      <button class="door" data-target="#cat-maum" style="--door-c:var(--c-maum)">
+        <span class="door-arch" aria-hidden="true">
+          <span class="door-light"></span>
+          <span class="door-panel"><span class="door-hanja">溫心</span><span class="door-knob"></span></span>
+        </span>
+        <span class="door-name">온:마음</span>
+        <span class="door-en">Mind</span>
+      </button>
+      <button class="door" data-target="#cat-saek" style="--door-c:var(--c-saek)">
+        <span class="door-arch" aria-hidden="true">
+          <span class="door-light"></span>
+          <span class="door-panel"><span class="door-hanja">溫色</span><span class="door-knob"></span></span>
+        </span>
+        <span class="door-name">온:색</span>
+        <span class="door-en">Drawing</span>
+      </button>
+      <button class="door" data-target="#cat-ilsang" style="--door-c:var(--c-ilsang)">
+        <span class="door-arch" aria-hidden="true">
+          <span class="door-light"></span>
+          <span class="door-panel"><span class="door-hanja">溫日</span><span class="door-knob"></span></span>
+        </span>
+        <span class="door-name">온:일상</span>
+        <span class="door-en">Daily</span>
+      </button>
+      <button class="door" data-target="#cat-ji" style="--door-c:var(--c-ji)">
+        <span class="door-arch" aria-hidden="true">
+          <span class="door-light"></span>
+          <span class="door-panel"><span class="door-hanja">溫知</span><span class="door-knob"></span></span>
+        </span>
+        <span class="door-name">온:지</span>
+        <span class="door-en">Knowledge</span>
+      </button>
+    </div>
+    <p class="doors-hint">다섯 개의 문으로 들어와, 하나의 따뜻한 세계를 만나요. 문을 열어보세요.</p>
+
+    <div class="hero-ctas">
+      <a href="#categories" class="btn primary">다섯 개의 문 살펴보기</a>
+      <a href="#products" class="btn ghost">제품 라인업 보기</a>
+    </div>
+  </div>
+</header>
+
+<section class="keywords" id="brand">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Brand Keywords</span>
+      <h2>빠르게 달리지 않아도 됩니다.<br>산책하듯, 오늘을 온전히 살아내는 것이 곧 성장입니다.</h2>
+    </div>
+    <div class="kw-grid">
+      <div class="kw reveal"><h3>온전함<span>Wholeness</span></h3><p>트렌드가 아닌 나다운 방식으로. 비교 없이 나의 속도로 창작하고 성장합니다.</p></div>
+      <div class="kw reveal"><h3>창작<span>Creation</span></h3><p>책과 그림으로 세상과 소통합니다. 감성과 표현이 브랜드가 되는 구조.</p></div>
+      <div class="kw reveal"><h3>치유<span>Healing</span></h3><p>심리와 일상 콘텐츠로 독자의 마음에 따뜻함을 전합니다.</p></div>
+      <div class="kw reveal"><h3>성장<span>Growth</span></h3><p>산책하듯 천천히, 단단하게. 매일의 꾸준함이 거대한 변화를 만듭니다.</p></div>
+      <div class="kw reveal"><h3>수익화<span>Monetize</span></h3><p>경험과 재능이 곧 상품. 지식창업으로 나다운 방식의 수익을 만듭니다.</p></div>
+      <div class="kw reveal"><h3>나눔<span>Sharing</span></h3><p>내 경험이 누군가의 첫걸음. 함께 성장하는 커뮤니티를 만듭니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-statement reveal">
+  <div class="wrap">
+    <p class="band-eyebrow">Five Doors, One World</p>
+    <h2>5개의 문으로 들어와,<br>하나의 따뜻한 세계 '긍정온'을 만납니다</h2>
+    <p>온:문 · 온:마음 · 온:색 · 온:일상 · 온:지 — 각자 다른 결로 시작해도 결국 하나의 브랜드로 수렴합니다.</p>
+  </div>
+</section>
+
+<section class="categories" id="categories">
+  <div class="wrap">
+    <div class="sec-head with-badge reveal">
+      <div>
+        <span class="kicker">5 Categories</span>
+        <h2>다섯 개의 따뜻한 문</h2>
+        <p>따뜻할 온(溫)과 켜짐(ON), 온전함의 '온'을 담은 다섯 개의 카테고리. 각자 다른 문으로 들어와도, 만나는 세계는 하나입니다.</p>
+      </div>
+      <span class="badge">카테고리 5개 · 최종</span>
+    </div>
+
+    <div class="cat-list">
+      <article class="cat reveal" id="cat-mun" style="--cat-c:var(--c-mun)">
+        <div class="cat-id">
+          <div class="hanja">溫文</div>
+          <div class="krname">온:문</div>
+          <div class="enname">Book &amp; Writing</div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-slogan">"한 문장이 나를 바꾼다"</p>
+          <p class="cat-desc">따뜻한 문장이 모이는 곳 — 에세이·글쓰기·책 출판의 세계. 책 쓰고 싶은데 막막했다면, 오늘 한 줄부터 시작해요.</p>
+          <div class="chips">
+            <span class="chip">30일 글쓰기 챌린지</span>
+            <span class="chip">에세이 쓰기 클래스</span>
+            <span class="chip">필사 노트 PDF</span>
+            <span class="chip">작가 되는 법 시리즈</span>
+            <span class="chip">책 출판 코칭</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="cat reveal" id="cat-maum" style="--cat-c:var(--c-maum)">
+        <div class="cat-id">
+          <div class="hanja">溫心</div>
+          <div class="krname">온:마음</div>
+          <div class="enname">Psychology &amp; Mind</div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-slogan">"마음을 알면 삶이 가벼워진다"</p>
+          <p class="cat-desc">따뜻한 마음의 공간 — 긍정심리·자기계발·마음챙김. 번아웃과 무기력 속에서 나를 되찾는 시간을 만듭니다.</p>
+          <div class="chips">
+            <span class="chip">마음 한 스푼 유튜브</span>
+            <span class="chip">긍정 확언 심리 카드</span>
+            <span class="chip">마음 일기 템플릿</span>
+            <span class="chip">번아웃 극복 강의</span>
+            <span class="chip">1:1 심리 기반 코칭</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="cat reveal" id="cat-saek" style="--cat-c:var(--c-saek)">
+        <div class="cat-id">
+          <div class="hanja">溫色</div>
+          <div class="krname">온:색</div>
+          <div class="enname">Drawing &amp; Design</div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-slogan">"선 하나로 감성을 담다"</p>
+          <p class="cat-desc">따뜻한 색감의 세계 — 산책 드로잉·북커버·굿노트 감성. 완벽하지 않아도 괜찮아요, 선 하나면 충분해요.</p>
+          <div class="chips">
+            <span class="chip">산책 드로잉 시리즈</span>
+            <span class="chip">굿노트 감성 템플릿</span>
+            <span class="chip">북커버 디자인</span>
+            <span class="chip">드로잉 클래스</span>
+            <span class="chip">감성 엽서·스티커 굿즈</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="cat reveal" id="cat-ilsang" style="--cat-c:var(--c-ilsang)">
+        <div class="cat-id">
+          <div class="hanja">溫日</div>
+          <div class="krname">온:일상</div>
+          <div class="enname">Daily Life &amp; Healing</div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-slogan">"평범한 오늘이 가장 특별하다"</p>
+          <p class="cat-desc">따뜻한 하루의 기록 — 산책·여행·맛집·감성 일상. 지루한 일상도 기록하는 순간 콘텐츠가 됩니다.</p>
+          <div class="chips">
+            <span class="chip">산책 일상 브이로그</span>
+            <span class="chip">감성 여행·맛집 기록</span>
+            <span class="chip">오늘 한 줄 시리즈</span>
+            <span class="chip">여행 일기 템플릿 PDF</span>
+            <span class="chip">일상 에세이 전자책</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="cat reveal" id="cat-ji" style="--cat-c:var(--c-ji)">
+        <div class="cat-id">
+          <div class="hanja">溫知</div>
+          <div class="krname">온:지</div>
+          <div class="enname">Knowledge Business</div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-slogan">"내 경험이 누군가의 시작이 된다"</p>
+          <p class="cat-desc">따뜻한 지식의 실전 세계 — 지식창업·재능수익·디지털파일. 재능은 있는데 수익 연결이 막막했다면, 여기서 길을 찾아요.</p>
+          <div class="chips">
+            <span class="chip">지식창업 가이드 전자책</span>
+            <span class="chip">N잡러 실전 워크북</span>
+            <span class="chip">크몽·클래스101 입점 노하우</span>
+            <span class="chip">디지털파일 만들기 강의</span>
+            <span class="chip">1:1 브랜딩 코칭 패키지</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Products</span>
+      <h2>판매 제품 라인업</h2>
+      <p>바로 시작할 수 있는 PDF부터 깊이 함께하는 코칭까지, 15종 이상의 풀 라인업.</p>
+    </div>
+
+    <div class="stage-block reveal">
+      <div class="stage-title"><h3>지금 바로 시작</h3><span class="badge">PDF · 굿즈 · 카드</span></div>
+      <div class="p-grid">
+        <article class="p-card" style="--cat-c:var(--c-mun)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">30일 글쓰기 챌린지 PDF</div>
+            <p class="p-desc">"어제보다 조금 더 나다운 오늘을 쓰는 사람을 위해"</p>
+            <div class="p-price">4,900원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-saek)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">산책 드로잉 감성 엽서 세트</div>
+            <p class="p-desc">AN온 작가의 손그림 감성 엽서 6장</p>
+            <div class="p-price">6,500원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-maum)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">마음 일기 PDF 템플릿</div>
+            <p class="p-desc">감정 기록·마음챙김·하루 회고 통합 다이어리</p>
+            <div class="p-price">7,900원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-ilsang)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">감성 여행 일기 템플릿 PDF</div>
+            <p class="p-desc">"훌쩍 떠난 그날의 냄새와 감정을 오래 간직하고 싶은 당신을 위해"</p>
+            <div class="p-price">9,900원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-saek)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">굿노트 감성 다이어리 템플릿</div>
+            <p class="p-desc">산책·드로잉·일상 기록 통합 굿노트 키트</p>
+            <div class="p-price">9,900원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-maum)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">긍정 확언 심리 카드 30장</div>
+            <p class="p-desc">"더 이상 애쓰지 않아도 괜찮다고 매일 말해주는 카드"</p>
+            <div class="p-price">12,000원</div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="stage-block reveal">
+      <div class="stage-title"><h3>깊이 배우기</h3><span class="badge">강의 · 전자책 · 클래스</span></div>
+      <div class="p-grid">
+        <article class="p-card" style="--cat-c:var(--c-ji)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">지식창업 실전 전자책</div>
+            <p class="p-desc">"내 경험이 누군가의 시작이 된다 — AN온의 수익화 노트"</p>
+            <div class="p-price">19,800원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-saek)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">감성 드로잉 온라인 클래스</div>
+            <p class="p-desc">"선 하나로 감성을 담는 산책 드로잉"</p>
+            <div class="p-price">49,000원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-maum)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">번아웃 극복 온라인 강의</div>
+            <p class="p-desc">심리학 기반 번아웃 회복 실전 프로그램</p>
+            <div class="p-price">59,000원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-mun)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">에세이 글쓰기 온라인 클래스</div>
+            <p class="p-desc">AN온 작가의 실전 에세이 쓰기 전 과정</p>
+            <div class="p-price">89,000원</div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="stage-block reveal">
+      <div class="stage-title"><h3>함께 완성하기</h3><span class="badge">코칭 · 멤버십</span></div>
+      <div class="p-grid">
+        <article class="p-card" style="--cat-c:var(--c-mun)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">책 출판 1:1 코칭 패키지</div>
+            <p class="p-desc">월 4회, 원고 피드백 + 출판사 투고 가이드</p>
+            <div class="p-price">월 250,000원</div>
+          </div>
+        </article>
+        <article class="p-card" style="--cat-c:var(--c-ji)">
+          <div class="p-swatch"></div>
+          <div class="p-body">
+            <div class="p-name">1:1 브랜딩 코칭 패키지</div>
+            <p class="p-desc">6개월 집중, 나만의 브랜드 완성 프로그램</p>
+            <div class="p-price">298,000원</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="journey">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Customer Journey</span>
+      <h2>긍정온과 함께하는 여정</h2>
+      <p>발견에서 전파까지 — 독자가 크리에이터로 성장하는 여섯 걸음.</p>
+    </div>
+    <div class="j-steps reveal">
+      <div class="j-step"><h3>발견</h3><p>블로그·유튜브·인스타그램·검색으로 긍정온을 만나요.</p></div>
+      <div class="j-step"><h3>공감</h3><p>무료 PDF와 콘텐츠 구독으로 마음이 먼저 열려요.</p></div>
+      <div class="j-step"><h3>첫 구매</h3><p>PDF·굿즈·카드, 부담 없는 입문으로 시작해요.</p></div>
+      <div class="j-step"><h3>성장</h3><p>강의와 챌린지를 수강하며 나의 속도로 자라나요.</p></div>
+      <div class="j-step"><h3>심화</h3><p>코칭과 멤버십 '긍정온 크루'에 함께해요.</p></div>
+      <div class="j-step"><h3>전파</h3><p>후기와 추천으로 따뜻함이 자연스럽게 번져요.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="vision">
+  <div class="wrap">
+    <div class="box reveal">
+      <span class="kicker">Vision</span>
+      <h2>"쓰고, 그리고, 빛나다"<br>삶 자체가 콘텐츠인 크리에이터의 집</h2>
+      <p>긍정온은 온전히 나답게 창작하고, 치유하고, 성장하고, 수익 내는 크리에이터 플랫폼입니다. 다섯 개의 문은 서로에게 이어져 하나의 선순환 생태계가 됩니다.</p>
+      <div class="cycle" aria-label="5개 카테고리 선순환">
+        <span class="c-item">온:문으로 읽고 쓰고</span><span class="arr" aria-hidden="true">→</span>
+        <span class="c-item">온:마음으로 치유되고</span><span class="arr" aria-hidden="true">→</span>
+        <span class="c-item">온:색으로 표현하고</span><span class="arr" aria-hidden="true">→</span>
+        <span class="c-item">온:일상으로 기록하며</span><span class="arr" aria-hidden="true">→</span>
+        <span class="c-item">온:지로 수익을 만들다</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="wrap reveal">
+    <h2>오늘, 당신의 문을 열어보세요</h2>
+    <p>뉴스레터를 구독하면 무료 필사 노트 PDF와 함께, 매주 한 편의 따뜻한 문장을 보내드려요.</p>
+    <div class="hero-ctas">
+      <a href="#top" class="btn primary">무료 PDF 받고 시작하기</a>
+      <a href="#categories" class="btn ghost">긍정온 크루 알아보기</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">
+      <div class="brand">긍정온<span class="on-dot" aria-hidden="true"></span></div>
+      <p>온전히 나로, 따뜻하게 세상으로. 쓰고 · 그리고 · 빛나다 — AN온 작가의 콘텐츠 융합형 힐링 플랫폼.</p>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>Category</h4>
+        <a href="#cat-mun">온:문 · Book &amp; Writing</a>
+        <a href="#cat-maum">온:마음 · Mind</a>
+        <a href="#cat-saek">온:색 · Drawing</a>
+        <a href="#cat-ilsang">온:일상 · Daily</a>
+        <a href="#cat-ji">온:지 · Knowledge</a>
+      </div>
+      <div class="foot-col">
+        <h4>Studio</h4>
+        <a href="#brand">브랜드 키워드</a>
+        <a href="#products">제품 라인업</a>
+        <a href="#join">뉴스레터 구독</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>ⓒ 2026 긍정온 · AN온 작가. All rights reserved.</span>
+    <span>다섯 개의 문으로 들어와, 하나의 따뜻한 세계를 만납니다.</span>
+  </div>
+</footer>
+
+<script>
+  // door click → scroll to category
+  document.querySelectorAll('.door').forEach(door => {
+    door.addEventListener('click', () => {
+      const target = document.querySelector(door.dataset.target);
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // scroll reveal, with a fallback so content never stays hidden
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12});
+    revealEls.forEach(el => io.observe(el));
+    setTimeout(() => { revealEls.forEach(el => el.classList.add('in')); io.disconnect(); }, 4000);
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
