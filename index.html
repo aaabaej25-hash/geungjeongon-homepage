@@ -510,6 +510,7 @@
       </div>
       <button id="adminSaveBtn">저장 (GitHub에 반영)</button>
       <button class="ghost" id="adminLockBtn">잠그기</button>
+      <button class="ghost" id="adminResetTokenBtn">토큰 재설정</button>
       <div class="admin-status" id="adminSaveStatus"></div>
     </div>
   </div>
@@ -943,6 +944,16 @@
     showSaveStatus('', '');
   });
 
+  document.getElementById('adminResetTokenBtn').addEventListener('click', () => {
+    if (!confirm('저장된 GitHub 토큰을 지우고 새로 입력할까요?')) return;
+    localStorage.removeItem(TOKEN_KEY);
+    setEditMode(false);
+    adminUnlocked.style.display = 'none';
+    adminSetup.style.display = 'block';
+    document.getElementById('adminTokenInput').value = '';
+    showSaveStatus('', '');
+  });
+
   function setEditMode(on) {
     editModeOn = on;
     editSwitch.classList.toggle('on', on);
@@ -1047,7 +1058,10 @@
       Object.keys(pendingUploads).forEach(k => delete pendingUploads[k]);
       showSaveStatus('저장 완료! 30초~1분 내 반영됩니다.', 'ok');
     } catch (err) {
-      showSaveStatus('저장 실패: ' + err.message, 'err');
+      const hint = /403|not accessible/i.test(err.message)
+        ? ' — 토큰에 이 저장소의 Contents: Read and write 권한이 있는지 확인하세요. "토큰 재설정"으로 새 토큰을 입력할 수 있습니다.'
+        : '';
+      showSaveStatus('저장 실패: ' + err.message + hint, 'err');
     } finally {
       saveBtn.disabled = false;
     }
